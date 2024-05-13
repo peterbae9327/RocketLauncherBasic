@@ -10,19 +10,20 @@ public class Rocket : MonoBehaviour
     private readonly float SPEED = 5f;
     private readonly float FUELPERSHOOT = 10f;
 
-    private int score;
+    private int score = 0;
     private int highscore;
+    public GameObject rocket;
 
     [SerializeField] private TextMeshProUGUI currentScoreTxt;
     [SerializeField] private TextMeshProUGUI HighScoreTxt;
     void Awake()
     {
-        _rb2d = GameObject.Find("Rocket").GetComponent<Rigidbody2D>();
+        _rb2d = gameObject.GetComponent<Rigidbody2D>();
     }
 
     private void Update()
     {
-        score = (int)gameObject.transform.position.y;
+        score = (int)rocket.transform.position.y;
         currentScoreTxt.text = $"{score} M";
         HighScoreTxt.text = $"High : {highscore} M";
         if (score >= highscore)
@@ -38,7 +39,7 @@ public class Rocket : MonoBehaviour
     {
         if (fuel >= FUELPERSHOOT)
         {
-            _rb2d.AddForce(Vector2.up*SPEED);
+            _rb2d.AddForce(Vector2.up*SPEED,ForceMode2D.Impulse);
             fuel -= FUELPERSHOOT;
         }
     }
